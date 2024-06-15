@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish JavaScript Functions</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .output {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .code-output {
+            font-family: 'Courier New', monospace;
+            background: #333;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            overflow-x: auto;
+        }
+
+        input, button {
+            padding: 5px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            background: #f0c040;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #fff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <h2>Character Count</h2>
+            <input type="text" id="charInput" placeholder="Enter text">
+            <button onclick="showCharCount()">Count Characters</button>
+            <div class="output" id="charCountOutput"></div>
+        </div>
+        <div class="section">
+            <h2>Fibonacci Sequence</h2>
+            <input type="number" id="fibInput" placeholder="Enter the number of terms">
+            <button onclick="showFibonacci()">Generate Sequence</button>
+            <div class="output" id="fibonacciOutput"></div>
+        </div>
+        <div class="section">
+            <h2>Sorted Numbers</h2>
+            <input type="text" id="sortInput" placeholder="Enter numbers separated by commas">
+            <button onclick="showSortedNumbers()">Sort Numbers</button>
+            <div class="output" id="sortedNumbersOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        function countCharacters(str) {
+            const charCount = {};
+            for (let char of str) {
+                if (/[a-zA-Z]/.test(char)) {
+                    char = char.toLowerCase(); // make the count case-insensitive
+                    charCount[char] = charCount[char] ? charCount[char] + 1 : 1;
+                }
+            }
+            return charCount;
+        }
+
+        function showCharCount() {
+            const input = document.getElementById('charInput').value;
+            const result = countCharacters(input);
+            const totalChars = Object.values(result).reduce((acc, count) => acc + count, 0);
+            document.getElementById('charCountOutput').innerHTML = `<pre class="code-output">${JSON.stringify(result, null, 2)}\nTotal Characters: ${totalChars}</pre>`;
+        }
+
+        function fibonacciSequence(n) {
+            const sequence = [0, 1];
+            for (let i = 2; i < n; i++) {
+                sequence.push(sequence[i - 1] + sequence[i - 2]);
+            }
+            return sequence.slice(0, n);
+        }
+
+        function showFibonacci() {
+            const input = parseInt(document.getElementById('fibInput').value, 10);
+            if (!isNaN(input) && input > 0) {
+                const result = fibonacciSequence(input);
+                document.getElementById('fibonacciOutput').innerHTML = `<pre class="code-output">${JSON.stringify(result, null, 2)}</pre>`;
+            }
+        }
+
+        function sortNumbers(arr) {
+            return arr.slice().sort((a, b) => a - b);
+        }
+
+        function showSortedNumbers() {
+            const input = document.getElementById('sortInput').value;
+            const arr = input.split(',').map(Number).filter(n => !isNaN(n));
+            const result = sortNumbers(arr);
+            document.getElementById('sortedNumbersOutput').innerHTML = `<pre class="code-output">${JSON.stringify(result, null, 2)}</pre>`;
+        }
+    </script>
+</body>
+</html>
